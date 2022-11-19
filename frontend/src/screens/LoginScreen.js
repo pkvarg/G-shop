@@ -18,7 +18,6 @@ const LoginScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { loading, error, userInfo } = userLogin
   const location = useLocation()
-  // const { search } = useLocation()
   const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
     if (userInfo) {
@@ -35,15 +34,23 @@ const LoginScreen = () => {
   const [user, setUser] = useState({})
 
   const handleCallbackResponse = (response) => {
-    console.log('Encoded JWT ID token: ' + response.credential)
     let userObject = jwt_decode(response.credential)
-    console.log(userObject)
     setUser(userObject)
     document.getElementById('signInDiv').hidden = true
+    // G
+    const data = {
+      email: userObject.email,
+      googleId: userObject.sub,
+      token: response.credential,
+      isAdmin: false,
+    }
+    console.log(data)
+    dispatch(getGoogleUserInfo(data))
   }
 
   const handleSignOut = (event) => {
     setUser({})
+    localStorage.removeItem('userInfo')
     document.getElementById('signInDiv').hidden = false
   }
 
@@ -59,49 +66,8 @@ const LoginScreen = () => {
       size: 'large',
     })
 
-    google.accounts.id.prompt()
+    // google.accounts.id.prompt()
   }, [])
-  // If no user: sign in btn
-  // If user: log out btn
-  const handleFailure = (result) => {
-    console.log(result)
-    alert(result)
-  }
-
-  // const handleLogin = async (googleData) => {
-  //   console.log(googleData)
-
-  //   const res = await fetch('/api/google-login', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       token: googleData.tokenId,
-  //     }),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   })
-
-  //   const data = await res.json()
-  //   setLoginData(data)
-  //   localStorage.setItem('loginData', JSON.stringify(data))
-  //   // G
-  //   console.log(googleData.profileObj.email, googleData.googleId)
-  //   data.googleId = googleData.googleId
-  //   //data._id = googleData.googleId
-  //   data.token = googleData.tokenId
-  //   data.isAdmin = false
-  //   // localStorage.setItem('userInfo', JSON.stringify(data))
-  //   dispatch(getGoogleUserInfo(data))
-  //   console.log(userInfo)
-  // }
-  // const handleLogout = () => {
-  //   localStorage.removeItem('loginData')
-  //   setLoginData(null)
-  //   // G
-  //   // const x = localStorage.getItem('userInfo')
-  //   // console.log(x)
-  //   //localStorage.removeItem('userInfo')
-  // }
 
   return (
     <FormContainer>

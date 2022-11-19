@@ -67,16 +67,10 @@ export const getGoogleUserInfo = (dataInfo) => {
     try {
       dispatch({ type: USER_LOGIN_REQUEST })
 
-      // const { data } = await axios.get('/api/auth/currentuser')
       const { data } = await axios.post('/api/auth/currentuser', { dataInfo })
-      // if (!data) {
-      //   dispatch({ type: USER_LOGIN_SUCCESS, payload: dataInfo })
-      // }
 
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
 
-      // localStorage.setItem('userInfo', JSON.stringify(data))
-      // console.log(data)
       localStorage.setItem('userInfo', JSON.stringify(dataInfo))
       console.log(dataInfo)
     } catch (error) {
@@ -93,7 +87,6 @@ export const getGoogleUserInfo = (dataInfo) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
-  localStorage.removeItem('loginData')
   localStorage.removeItem('cartItems')
   localStorage.removeItem('shippingAddress')
   localStorage.removeItem('paymentMethod')
