@@ -21,7 +21,6 @@ const LoginScreen = () => {
   const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
     if (userInfo) {
-      console.log('userInfoLogin: ', userInfo)
       navigate(redirect)
     }
   }, [navigate, userInfo, redirect])
@@ -38,7 +37,6 @@ const LoginScreen = () => {
     setUser(userObject)
     document.getElementById('signInDiv').hidden = true
     // G
-    console.log(userObject.name)
     const data = {
       name: userObject.name,
       email: userObject.email,
