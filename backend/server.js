@@ -10,12 +10,13 @@ import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
-import { OAuth2Client } from 'google-auth-library'
+// import { OAuth2Client } from 'google-auth-library'
 import authRoutes from './routes/authRoutes.js'
 
 dotenv.config()
 connectDB()
-const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_ID)
+// const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_ID)
+//console.log(process.env.REACT_APP_GOOGLE_ID)
 const app = express()
 
 if (process.env.NODE_ENV === 'development') {
@@ -74,11 +75,7 @@ app.use(errorHandler)
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'https://pictusweb-mern.onrender.com',
-      'https://pictusweb.art',
-    ],
+    origin: ['http://localhost:3000', 'https://pictusweb-mern.onrender.com'],
   })
 )
 
