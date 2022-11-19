@@ -38,13 +38,14 @@ const LoginScreen = () => {
     setUser(userObject)
     document.getElementById('signInDiv').hidden = true
     // G
+    console.log(userObject.name)
     const data = {
+      name: userObject.name,
       email: userObject.email,
       googleId: userObject.sub,
       token: response.credential,
       isAdmin: false,
     }
-    console.log(data)
     dispatch(getGoogleUserInfo(data))
   }
 

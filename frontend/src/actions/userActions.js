@@ -72,7 +72,6 @@ export const getGoogleUserInfo = (dataInfo) => {
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
 
       localStorage.setItem('userInfo', JSON.stringify(dataInfo))
-      console.log(dataInfo)
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,

@@ -5,23 +5,6 @@ import generateToken from '../utils/generateToken.js'
 
 const router = express.Router()
 
-router.get('/currentuser', (req, res) => {
-  const user = req.user
-  console.log(user)
-  if (user) {
-    res.json({
-      _id: user._id,
-      googleId: user.googleId,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    })
-  } else {
-    res.send(null)
-  }
-})
-
 //
 // @desc POST /api/users/login
 // @access Public
