@@ -99,7 +99,7 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login'
 }
 
-export const resetPassword = (email) => async (dispatch) => {
+export const forgotPasswordAction = (email) => async (dispatch) => {
   try {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
@@ -112,7 +112,7 @@ export const resetPassword = (email) => async (dispatch) => {
     }
 
     const { data } = await axios.post(
-      '/api/auth/reset-password',
+      '/api/auth/forgot-password',
       { email },
       config
     )

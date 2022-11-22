@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FC'
-import { resetPassword } from '../actions/userActions'
+import { forgotPasswordAction } from '../actions/userActions'
 
 const ForgotPasswordScreen = () => {
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ const ForgotPasswordScreen = () => {
     if (!email) {
       setMessage('You must enter an email address')
     } else {
-      dispatch(resetPassword(email))
+      dispatch(forgotPasswordAction(email))
     }
   }
 

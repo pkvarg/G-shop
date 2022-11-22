@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import Email from '../utils/email.js'
+import crypto from 'crypto'
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
   // 1) Get user based on POSTed email
@@ -13,7 +14,6 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken()
   await user.save({ validateBeforeSave: false })
-
   // 3) Send it to user's email
   try {
     // const resetURL = `${req.protocol}://${req.get(
@@ -34,7 +34,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false })
 
     return next(
-      new AppError('There was an error sending the email. Try again later!'),
+      Error('There was an error sending the email. Try again later!'),
       500
     )
   }
@@ -53,7 +53,7 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   })
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
-    return next(new AppError('Token is invalid or has expired', 400))
+    return next(Error('Token is invalid or has expired', 400))
   }
   user.password = req.body.password
   user.passwordConfirm = req.body.passwordConfirm
@@ -65,4 +65,4 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   createSendToken(user, 200, req, res)
 })
 
-export { forgotPassword, resetPassword }
+export default { forgotPassword, resetPassword }

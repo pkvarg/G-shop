@@ -2,6 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
+import authController from '../controllers/authController.js'
 
 const router = express.Router()
 
@@ -41,12 +42,8 @@ router.post('/currentUser', async (req, res) => {
   }
 })
 
-router.post('/reset-password', async (req, res) => {
-  const email = req.body.email
-  console.log(email)
-  res.json({
-    email,
-  })
-})
+router.post('/forgot-password', authController.forgotPassword)
+
+router.patch('/resetPassword/:token', authController.resetPassword)
 
 export default router
