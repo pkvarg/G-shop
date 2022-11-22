@@ -66,7 +66,7 @@ const LoginScreen = () => {
     })
 
     // google.accounts.id.prompt()
-  }, [])
+  })
 
   return (
     <FormContainer>
@@ -97,16 +97,31 @@ const LoginScreen = () => {
           Sign In
         </Button>
 
+        <Row className='py-3'>
+          <Col>
+            Forgot Password?{' '}
+            <Link
+              to={
+                redirect
+                  ? `/forgot-password?redirect=${redirect}`
+                  : '/forgot-password'
+              }
+            >
+              Send password reset link
+            </Link>
+          </Col>
+        </Row>
+
         <div id='signInDiv'></div>
 
         {user && (
           <div className='my-3'>
-            <img src={user.picture}></img>
+            <img src={user.picture} alt={user.picture}></img>
             <h3>{user.name}</h3>
           </div>
         )}
 
-        {Object.keys(user).length != 0 && (
+        {Object.keys(user).length !== 0 && (
           <Button
             className='my-1'
             variant='primary'

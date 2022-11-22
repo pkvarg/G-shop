@@ -41,4 +41,12 @@ router.post('/currentUser', async (req, res) => {
   }
 })
 
+router.post('/reset-password', async (req, res) => {
+  const email = req.body.email
+  console.log(email)
+  res.json({
+    email,
+  })
+})
+
 export default router

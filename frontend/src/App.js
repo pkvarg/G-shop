@@ -21,6 +21,7 @@ import UserEditScreen from './screens/UserEditScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 
 const App = () => {
   const [clientID, setClientID] = useState('')
@@ -88,6 +89,10 @@ const App = () => {
                   <Route
                     path='/admin/orderlist'
                     element={<OrderListScreen />}
+                  />
+                  <Route
+                    path='/forgot-password'
+                    element={<ForgotPasswordScreen />}
                   />
                 </Routes>
               </Container>
