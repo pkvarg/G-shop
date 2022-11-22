@@ -22,6 +22,7 @@ import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import ResetPasswordScreen from './screens/ResetPasswordScreen'
 
 const App = () => {
   const [clientID, setClientID] = useState('')
@@ -53,6 +54,10 @@ const App = () => {
                   <Route path='/placeorder' element={<PlaceOrderScreen />} />
                   <Route path='/login' element={<LoginScreen />} />
                   <Route path='/register' element={<RegisterScreen />} />
+                  <Route
+                    path='/resetPassword'
+                    element={<ResetPasswordScreen />}
+                  />
                   <Route path='/profile' element={<ProfileScreen />} />
 
                   <Route path='/product/:id' element={<ProductScreen />} />
