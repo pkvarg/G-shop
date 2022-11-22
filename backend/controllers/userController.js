@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
+import Email from '../utils/email.js'
 
 // @desc Auth user & get token
 // @desc POST /api/users/login
@@ -40,7 +41,11 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
   })
 
+  const url = `${req.protocol}://${req.get('host')}`
+
   if (user) {
+    await new Email(user, url).sendWelcome()
+
     res.status(201).json({
       _id: user._id,
       name: user.name,
