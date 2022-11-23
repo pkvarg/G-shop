@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
+import Email from '../utils/email.js'
 
 // @desc Create new Order
 // @desc POST /api/orders
@@ -15,6 +16,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body
+
+  const customerName = req.body.name
+  const email = req.body.email
   if (orderItems && orderItems.length === 0) {
     res.status(400)
     throw new Error('No order items')
@@ -29,8 +33,27 @@ const addOrderItems = asyncHandler(async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
+      customerName,
+      email,
     })
     const createdOrder = await order.save()
+    //console.log(order)
+    const info = createdOrder.orderItems[0]
+    const emailInfo = {
+      item: info.name,
+      street: createdOrder.shippingAddress.address,
+      city: createdOrder.shippingAddress.city,
+      zip: createdOrder.shippingAddress.postalCode,
+      country: createdOrder.shippingAddress.country,
+      price: info.price,
+      tax: taxPrice,
+      total: createdOrder.totalPrice,
+      customerName,
+      email,
+    }
+
+    console.log('emailInfo:', emailInfo)
+
     res.status(201).json(createdOrder)
   }
 })

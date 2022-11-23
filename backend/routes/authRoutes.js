@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 import authController from '../controllers/authController.js'
+import Email from '../utils/email.js'
 
 const router = express.Router()
 
@@ -13,7 +14,6 @@ const router = express.Router()
 router.post('/currentUser', async (req, res) => {
   const { dataInfo } = req.body
   const email = dataInfo.email
-  console.log(dataInfo)
 
   const user = await User.findOne({ email })
 
@@ -31,6 +31,11 @@ router.post('/currentUser', async (req, res) => {
       email: dataInfo.email,
       googleId: dataInfo.googleId,
     })
+    // send welcome to new G user
+    const url = `${req.protocol}://${req.get('host')}`
+
+    await new Email(createdUser, url).sendWelcome()
+
     console.log(createdUser)
     res.json({
       _id: createdUser._id,

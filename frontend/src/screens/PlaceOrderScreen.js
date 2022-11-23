@@ -11,11 +11,6 @@ const PlaceOrderScreen = () => {
   const navigate = useNavigate()
   const cart = useSelector((state) => state.cart)
 
-  // if (!cart.shippingAddress.address) {
-  //   navigate('/shipping')
-  // } else if (!cart.paymentMethod) {
-  //   navigate('/payment')
-  // }
   // Calculate Prices
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2)
@@ -43,6 +38,12 @@ const PlaceOrderScreen = () => {
     // eslint-disable-next-line
   }, [navigate, success])
 
+  // send by email
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+  const orderToEmailName = userInfo.name
+  const orderToEmailEmail = userInfo.email
+
   const placeOrderhandler = () => {
     dispatch(
       createOrder({
@@ -53,6 +54,8 @@ const PlaceOrderScreen = () => {
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
+        name: orderToEmailName,
+        email: orderToEmailEmail,
       })
     )
   }
