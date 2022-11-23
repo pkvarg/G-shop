@@ -9,6 +9,9 @@ import { resetPasswordAction } from '../actions/userActions'
 
 const ResetPasswordScreen = () => {
   const navigate = useNavigate()
+  //const [name, setName] = useState('')
+  //const [id, setId] = useState('')
+  //const [email, setEmail] = useState('')
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -22,7 +25,18 @@ const ResetPasswordScreen = () => {
   const redirect = location.search ? location.search.split('=')[1] : '/'
   const params = useParams()
   const token = params.token
-  console.log(token)
+  const name = params.name
+  const email = params.email
+  const id = params.id
+  console.log(name, email, id)
+
+  const user = {
+    name,
+    id,
+    email,
+    password,
+  }
+  console.log(user)
 
   // useEffect(() => {
   //   if (email) {
@@ -36,7 +50,7 @@ const ResetPasswordScreen = () => {
     if (!password) {
       setMessage('You must enter a password')
     } else {
-      dispatch(resetPasswordAction(password, confirmPassword, token))
+      dispatch(resetPasswordAction(user, token))
     }
   }
 
@@ -67,12 +81,7 @@ const ResetPasswordScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button
-          type='submit'
-          variant='primary'
-          className='my-3'
-          data-token={token ? token : ''}
-        >
+        <Button type='submit' variant='primary' className='my-3'>
           Change Password
         </Button>
       </Form>

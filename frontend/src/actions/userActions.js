@@ -137,40 +137,79 @@ export const forgotPasswordAction = (email, origURL) => async (dispatch) => {
   }
 }
 
-export const resetPasswordAction =
-  (password, confirmPassword, token) => async (dispatch) => {
-    try {
-      dispatch({
-        type: RESET_PASSWORD_REQUEST,
-      })
+// export const resetPasswordAction =
+//   (password, confirmPassword, token) => async (dispatch) => {
+//     try {
+//       dispatch({
+//         type: RESET_PASSWORD_REQUEST,
+//       })
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+//       const config = {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       }
 
-      const { data } = await axios.patch(
-        `/api/auth/reset-password/${token}`,
-        { password, confirmPassword, token },
-        config
-      )
-      dispatch({
-        type: RESET_PASSWORD_SUCCESS,
-        payload: data,
-      })
+//       const { data } = await axios.patch(
+//         `/api/auth/reset-password/${token}`,
+//         { password, confirmPassword, token },
+//         config
+//       )
+//       dispatch({
+//         type: RESET_PASSWORD_SUCCESS,
+//         payload: data,
+//       })
 
-      localStorage.setItem('userInfo', JSON.stringify(data))
-    } catch (error) {
-      dispatch({
-        type: RESET_PASSWORD_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      })
+//       localStorage.setItem('userInfo', JSON.stringify(data))
+//     } catch (error) {
+//       dispatch({
+//         type: RESET_PASSWORD_FAIL,
+//         payload:
+//           error.response && error.response.data.message
+//             ? error.response.data.message
+//             : error.message,
+//       })
+//     }
+//   }
+
+export const resetPasswordAction = (user, token) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_PROFILE_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     }
+
+    const { data } = await axios.put(`/api/users/profile`, user, config)
+
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      payload: data,
+    })
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    })
+    localStorage.setItem('userInfo', JSON.stringify(data))
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
+      payload: message,
+    })
   }
+}
 
 export const register = (name, email, password) => async (dispatch) => {
   try {
