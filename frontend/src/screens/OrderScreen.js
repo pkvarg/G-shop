@@ -97,45 +97,6 @@ const OrderScreen = () => {
     userInfo,
   ])
 
-  // useEffect(() => {
-  //   if (!userInfo) {
-  //     navigate('/login')
-  //   }
-  //   const addPayPalScript = async () => {
-  //     const { data: clientId } = await axios.get('/api/config/paypal')
-  //     const script = document.createElement('script')
-  //     script.type = 'text/javascript'
-  //     script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-  //     script.async = true
-  //     script.onload = () => {
-  //       setSdkready(true)
-  //     }
-  //     document.body.appendChild(script)
-  //   }
-
-  //   if (!order || successPay || successDeliver || order._id !== orderId) {
-  //     dispatch({ type: ORDER_PAY_RESET })
-  //     dispatch({ type: ORDER_DELIVER_RESET })
-  //     dispatch(getOrderDetails(orderId))
-  //   } else if (!order.isPaid) {
-  //     if (!window.paypal) {
-  //       addPayPalScript()
-  //     } else {
-  //       setSdkready(true)
-  //     }
-  //   }
-  // }, [
-  //   dispatch,
-  //   user,
-  //   userInfo,
-  //   order,
-  //   orderId,
-  //   successPay,
-  //   successDelete,
-  //   successDeliver,
-  //   navigate,
-  // ])
-
   const createOrder = (data, actions) => {
     return actions.order.create({
       purchase_units: [

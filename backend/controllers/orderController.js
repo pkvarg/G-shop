@@ -37,7 +37,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
       email,
     })
     const createdOrder = await order.save()
-    //console.log(order)
     const info = createdOrder.orderItems[0]
     const emailInfo = {
       item: info.name,
@@ -50,10 +49,11 @@ const addOrderItems = asyncHandler(async (req, res) => {
       total: createdOrder.totalPrice,
       customerName,
       email,
+      orderId: createdOrder._id,
     }
     await new Email(emailInfo).sendOrderToEmail()
 
-    console.log('emailInfo:', emailInfo)
+    console.log(createdOrder)
 
     res.status(201).json(createdOrder)
   }

@@ -20,6 +20,7 @@ class Email {
     this.total = user.total
     this.customerName = user.customerName
     this.email = user.email
+    this.orderId = user.orderId
   }
 
   newTransport() {
@@ -59,6 +60,7 @@ class Email {
         total: this.total,
         customerName: this.customerName,
         email: this.email,
+        orderId: this.orderId,
       }
     )
 
@@ -89,7 +91,7 @@ class Email {
   }
 
   async sendOrderToEmail() {
-    await this.send('orderToEmail', 'Your order')
+    await this.send('orderToEmail', `Your order ${this.orderId}`)
   }
 
   // contact Form
