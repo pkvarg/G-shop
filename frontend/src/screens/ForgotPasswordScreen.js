@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -8,8 +7,6 @@ import FormContainer from '../components/FC'
 import { forgotPasswordAction } from '../actions/userActions'
 
 const ForgotPasswordScreen = () => {
-  const navigate = useNavigate()
-
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState(null)
   const [messageSuccess, setMessageSuccess] = useState(null)
@@ -19,16 +16,8 @@ const ForgotPasswordScreen = () => {
   const dispatch = useDispatch()
 
   const forgotPassword = useSelector((state) => state.forgotPassword)
-  const { loading, error, userInfo } = forgotPassword
-  const location = useLocation()
-  const redirect = location.search ? location.search.split('=')[1] : '/'
-  // useEffect(() => {
-  //   if (email) {
-  //     navigate(redirect)
-  //   }
-  // }, [navigate, email, redirect])
+  const { loading, error } = forgotPassword
 
-  // if no email message = enter email ???
   const submitHandler = (e) => {
     e.preventDefault()
     if (!email) {

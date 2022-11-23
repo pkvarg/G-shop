@@ -34,6 +34,7 @@ class Email {
       `${__dirname}/backend/utils/mailTemplates/${template}.pug`,
       {
         firstName: this.firstName,
+        email: this.to,
         url: this.url,
         subject,
         // contact form

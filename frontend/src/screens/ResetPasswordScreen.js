@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -21,15 +21,12 @@ const ResetPasswordScreen = () => {
   const dispatch = useDispatch()
 
   const resetPassword = useSelector((state) => state.resetPassword)
-  const { loading, error, userInfo } = resetPassword
-  const location = useLocation()
-  const redirect = location.search ? location.search.split('=')[1] : '/'
+  const { loading, error } = resetPassword
   const params = useParams()
   const token = params.token
   const name = params.name
   const email = params.email
   const id = params.id
-  console.log(name, email, id)
 
   const user = {
     name,
@@ -38,13 +35,6 @@ const ResetPasswordScreen = () => {
     password,
   }
 
-  // useEffect(() => {
-  //   if (email) {
-  //     navigate(redirect)
-  //   }
-  // }, [navigate, email, redirect])
-
-  // if no email message = enter email ???
   const submitHandler = (e) => {
     e.preventDefault()
     if (password !== confirmPassword) {
@@ -52,7 +42,7 @@ const ResetPasswordScreen = () => {
     } else {
       dispatch(resetPasswordAction(user, token))
       setMessageSuccess('Password is successfully reset')
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         navigate('/')
       }, 2000)
     }
