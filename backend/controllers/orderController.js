@@ -51,6 +51,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       customerName,
       email,
     }
+    await new Email(emailInfo).sendOrderToEmail()
 
     console.log('emailInfo:', emailInfo)
 

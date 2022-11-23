@@ -6,9 +6,20 @@ import path from 'path'
 class Email {
   constructor(user, url) {
     this.to = user.email
-    this.firstName = user.name.split(' ')[0]
+    this.firstName = user.name
     this.url = url
     this.from = `G-Shop <${process.env.EMAIL_FROM}>`
+    // order
+    this.item = user.item
+    this.street = user.street
+    this.city = user.city
+    this.zip = user.zip
+    this.country = user.country
+    this.price = user.price
+    this.tax = user.tax
+    this.total = user.total
+    this.customerName = user.customerName
+    this.email = user.email
   }
 
   newTransport() {
@@ -37,7 +48,17 @@ class Email {
         email: this.to,
         url: this.url,
         subject,
-        // contact form
+        // order
+        item: this.item,
+        street: this.street,
+        city: this.city,
+        zip: this.zip,
+        country: this.country,
+        price: this.price,
+        tax: this.tax,
+        total: this.total,
+        customerName: this.customerName,
+        email: this.email,
       }
     )
 
@@ -65,6 +86,10 @@ class Email {
       'passwordReset',
       'Your password reset token (valid for only 10 minutes)'
     )
+  }
+
+  async sendOrderToEmail() {
+    await this.send('orderToEmail', 'Your order')
   }
 
   // contact Form

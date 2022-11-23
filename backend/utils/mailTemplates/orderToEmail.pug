@@ -1,0 +1,32 @@
+extends baseEmail 
+
+block content 
+                            
+  h3 Hi #{customerName},
+  
+  h1 Your order details 
+  h2 #{item}
+  h3 
+  p #{customerName}
+  p #{street}
+  p #{city}
+  p #{zip}
+  p #{country}
+  p Price: #{price}
+  p Tax: #{tax}
+  p Total: #{total}
+  //p #{}
+
+  h3 Thank you for shopping with us!
+
+  //- table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  //-   tbody
+  //-     tr
+  //-       td(align='left')
+  //-         table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  //-           tbody
+  //-             tr
+  //-               td
+  //-                 a(href=`${url}`, target='_blank') Reset your password
+  //- p If you didn't forget your password, please ignore this email!
+  
