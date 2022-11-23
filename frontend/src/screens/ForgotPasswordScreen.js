@@ -12,6 +12,7 @@ const ForgotPasswordScreen = () => {
 
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState(null)
+  const [messageSuccess, setMessageSuccess] = useState(null)
 
   const origURL = window.location.host
 
@@ -34,6 +35,7 @@ const ForgotPasswordScreen = () => {
       setMessage('You must enter an email address')
     } else {
       dispatch(forgotPasswordAction(email, origURL))
+      setMessageSuccess('Reset link sent to your email')
     }
   }
 
@@ -41,6 +43,7 @@ const ForgotPasswordScreen = () => {
     <FormContainer>
       <h1>Enter your email here</h1>
       {message && <Message variant='danger'>{message}</Message>}
+      {messageSuccess && <Message variant='success'>{messageSuccess}</Message>}
 
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}

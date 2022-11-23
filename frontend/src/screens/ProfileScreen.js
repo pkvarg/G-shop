@@ -17,6 +17,7 @@ const ProfileScreen = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
+  const [messageSuccess, setMessageSuccess] = useState(null)
 
   const dispatch = useDispatch()
 
@@ -56,6 +57,7 @@ const ProfileScreen = () => {
       setMessage('Passwords do not match')
     } else {
       dispatch(updateUserProfile({ id: user._id, name, email, password }))
+      setMessageSuccess('Password is successfully reset')
     }
   }
 
@@ -64,6 +66,9 @@ const ProfileScreen = () => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
+        {messageSuccess && (
+          <Message variant='success'>{messageSuccess}</Message>
+        )}
 
         {error && <Message variant='danger'>{error}</Message>}
         {success && <Message variant='success'>Profile Updated</Message>}

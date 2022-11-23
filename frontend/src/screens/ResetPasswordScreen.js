@@ -16,6 +16,7 @@ const ResetPasswordScreen = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
+  const [messageSuccess, setMessageSuccess] = useState(null)
 
   const dispatch = useDispatch()
 
@@ -36,7 +37,6 @@ const ResetPasswordScreen = () => {
     email,
     password,
   }
-  console.log(user)
 
   // useEffect(() => {
   //   if (email) {
@@ -47,10 +47,14 @@ const ResetPasswordScreen = () => {
   // if no email message = enter email ???
   const submitHandler = (e) => {
     e.preventDefault()
-    if (!password) {
-      setMessage('You must enter a password')
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match')
     } else {
       dispatch(resetPasswordAction(user, token))
+      setMessageSuccess('Password is successfully reset')
+      const timer = setTimeout(() => {
+        navigate('/')
+      }, 2000)
     }
   }
 
@@ -58,7 +62,7 @@ const ResetPasswordScreen = () => {
     <FormContainer>
       <h1>Enter your new password here</h1>
       {message && <Message variant='danger'>{message}</Message>}
-
+      {messageSuccess && <Message variant='success'>{messageSuccess}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
