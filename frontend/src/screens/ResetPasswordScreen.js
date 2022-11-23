@@ -9,9 +9,6 @@ import { resetPasswordAction } from '../actions/userActions'
 
 const ResetPasswordScreen = () => {
   const navigate = useNavigate()
-  //const [name, setName] = useState('')
-  //const [id, setId] = useState('')
-  //const [email, setEmail] = useState('')
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -24,6 +21,7 @@ const ResetPasswordScreen = () => {
   const { loading, error } = resetPassword
   const params = useParams()
   const token = params.token
+  const genToken = params.genToken
   const name = params.name
   const email = params.email
   const id = params.id
@@ -40,7 +38,7 @@ const ResetPasswordScreen = () => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      dispatch(resetPasswordAction(user, token))
+      dispatch(resetPasswordAction(user, genToken))
       setMessageSuccess('Password is successfully reset')
       setTimeout(() => {
         navigate('/')
