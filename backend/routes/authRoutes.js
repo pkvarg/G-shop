@@ -44,6 +44,6 @@ router.post('/currentUser', async (req, res) => {
 
 router.post('/forgot-password', authController.forgotPassword)
 
-router.patch('/resetPassword/:token', authController.resetPassword)
+router.patch('/reset-password/:token', authController.resetPassword)
 
 export default router

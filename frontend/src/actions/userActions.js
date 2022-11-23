@@ -27,6 +27,9 @@ import {
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAIL,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAIL,
 } from '../constants/userConstants'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 
@@ -99,7 +102,7 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login'
 }
 
-export const forgotPasswordAction = (email) => async (dispatch) => {
+export const forgotPasswordAction = (email, origURL) => async (dispatch) => {
   try {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
@@ -113,7 +116,7 @@ export const forgotPasswordAction = (email) => async (dispatch) => {
 
     const { data } = await axios.post(
       '/api/auth/forgot-password',
-      { email },
+      { email, origURL },
       config
     )
 
@@ -133,6 +136,41 @@ export const forgotPasswordAction = (email) => async (dispatch) => {
     })
   }
 }
+
+export const resetPasswordAction =
+  (password, confirmPassword, token) => async (dispatch) => {
+    try {
+      dispatch({
+        type: RESET_PASSWORD_REQUEST,
+      })
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+
+      const { data } = await axios.patch(
+        `/api/auth/reset-password/${token}`,
+        { password, confirmPassword, token },
+        config
+      )
+      dispatch({
+        type: RESET_PASSWORD_SUCCESS,
+        payload: data,
+      })
+
+      localStorage.setItem('userInfo', JSON.stringify(data))
+    } catch (error) {
+      dispatch({
+        type: RESET_PASSWORD_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }
 
 export const register = (name, email, password) => async (dispatch) => {
   try {

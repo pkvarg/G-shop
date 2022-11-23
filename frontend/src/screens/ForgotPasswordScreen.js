@@ -13,6 +13,8 @@ const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState(null)
 
+  const origURL = window.location.host
+
   const dispatch = useDispatch()
 
   const forgotPassword = useSelector((state) => state.forgotPassword)
@@ -31,7 +33,7 @@ const ForgotPasswordScreen = () => {
     if (!email) {
       setMessage('You must enter an email address')
     } else {
-      dispatch(forgotPasswordAction(email))
+      dispatch(forgotPasswordAction(email, origURL))
     }
   }
 

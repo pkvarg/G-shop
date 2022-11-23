@@ -55,7 +55,7 @@ const App = () => {
                   <Route path='/login' element={<LoginScreen />} />
                   <Route path='/register' element={<RegisterScreen />} />
                   <Route
-                    path='/resetPassword'
+                    path='/reset-password/:token'
                     element={<ResetPasswordScreen />}
                   />
                   <Route path='/profile' element={<ProfileScreen />} />

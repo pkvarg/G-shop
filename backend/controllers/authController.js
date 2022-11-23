@@ -2,10 +2,12 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import Email from '../utils/email.js'
 import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
   // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email })
+  const origURL = req.body.origURL
   if (!user) {
     res.status(404)
     throw new Error('There is no user with email address.')
@@ -16,12 +18,12 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false })
   // 3) Send it to user's email
   try {
+    // url to frontend
+    const resetURL = `${req.protocol}://${origURL}/reset-password/${resetToken}`
+    // url to backend
     // const resetURL = `${req.protocol}://${req.get(
     //   'host'
-    // )}/api/v1/users/resetPassword/${resetToken}`;
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/resetPassword?token=${resetToken}`
+    // )}/reset-password?token=${resetToken}`
     await new Email(user, resetURL).sendPasswordReset()
 
     res.status(200).json({
@@ -39,6 +41,35 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     )
   }
 })
+
+const signToken = function (id) {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  })
+}
+
+const createSendToken = (user, statusCode, req, res) => {
+  const token = signToken(user._id)
+
+  res.cookie('jwt', token, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  })
+
+  // Remove password from output
+  user.password = undefined
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user,
+    },
+  })
+}
 
 const resetPassword = asyncHandler(async (req, res, next) => {
   // 1) Get user based on the token
@@ -65,4 +96,4 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   createSendToken(user, 200, req, res)
 })
 
-export default { forgotPassword, resetPassword }
+export default { forgotPassword, resetPassword, createSendToken }

@@ -99,7 +99,6 @@ const LoginScreen = () => {
 
         <Row className='py-3'>
           <Col>
-            Forgot Password?{' '}
             <Link
               to={
                 redirect
@@ -107,7 +106,7 @@ const LoginScreen = () => {
                   : '/forgot-password'
               }
             >
-              Send password reset link
+              Forgot password?
             </Link>
           </Col>
         </Row>
