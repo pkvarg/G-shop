@@ -37,23 +37,49 @@ const addOrderItems = asyncHandler(async (req, res) => {
       email,
     })
     const createdOrder = await order.save()
-    const info = createdOrder.orderItems[0]
-    const emailInfo = {
-      item: info.name,
-      street: createdOrder.shippingAddress.address,
-      city: createdOrder.shippingAddress.city,
-      zip: createdOrder.shippingAddress.postalCode,
-      country: createdOrder.shippingAddress.country,
-      price: info.price,
-      tax: taxPrice,
-      total: createdOrder.totalPrice,
-      customerName,
-      email,
-      orderId: createdOrder._id,
-    }
-    await new Email(emailInfo).sendOrderToEmail()
 
-    console.log(createdOrder)
+    //from Calculations
+    // array of items
+    const loop = createdOrder.orderItems
+    const productsCount = loop.length
+
+    let productsObject = {}
+    loop.map((item, i) => {
+      console.log(item.qty + ' x ' + item.name + ' price $' + item.price)
+      productsObject[i] = item.qty + ' x ' + item.name + ' price $' + item.price
+    })
+
+    // object with address info
+    const addressInfo = createdOrder.shippingAddress
+
+    const additional = {
+      paymentMethod: createdOrder.paymentMethod,
+      taxPrice: createdOrder.taxPrice,
+      shippingPrice: createdOrder.shippingPrice,
+      totalPrice: createdOrder.totalPrice,
+      isPaid: createdOrder.isPaid,
+      createdAt: createdOrder.createdAt,
+    }
+    // ADD THESE LATER
+    productsObject.email = email
+    productsObject.name = customerName
+    productsObject.taxPrice = additional.taxPrice
+    productsObject.totalPrice = additional.totalPrice
+    productsObject.shippingPrice = additional.shippingPrice
+    productsObject.isPaid = additional.isPaid
+    productsObject.productsCount = productsCount
+    productsObject.orderId = createdOrder._id
+    productsObject.addressinfo =
+      addressInfo.address +
+      ' ,' +
+      addressInfo.city +
+      ' ' +
+      addressInfo.postalCode +
+      ' ' +
+      addressInfo.country
+    console.log(productsObject)
+
+    await new Email(productsObject).sendOrderToEmail()
 
     res.status(201).json(createdOrder)
   }

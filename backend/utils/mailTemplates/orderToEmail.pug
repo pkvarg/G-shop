@@ -2,20 +2,20 @@ extends baseEmail
 
 block content 
                             
-  h3 Hi #{customerName},
+  h3 Hi #{firstName},
   
   h1 Your order details 
-  h2 #{item}
-  h3 #{orderId}
-  p #{customerName}
-  p #{street}
-  p #{city}
-  p #{zip}
-  p #{country}
-  p Price: #{price}
-  p Tax: #{tax}
-  p Total: #{total}
-  //p #{}
+  p ...
+  h1 #{firstName}
+  h2 #{products}
+  p ...
+  h2 #{address}
+  h3 Order is paid? #{paid}
+  p Shipping #{shippingPrice}
+  p Tax #{taxPrice}
+  p Total #{totalPrice}
+  p #{orderId}
+ 
 
   h3 Thank you for shopping with us!
 

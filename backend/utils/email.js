@@ -10,16 +10,16 @@ class Email {
     this.url = url
     this.from = `G-Shop <${process.env.EMAIL_FROM}>`
     // order
-    this.item = user.item
-    this.street = user.street
-    this.city = user.city
-    this.zip = user.zip
-    this.country = user.country
-    this.price = user.price
-    this.tax = user.tax
-    this.total = user.total
-    this.customerName = user.customerName
-    this.email = user.email
+    this.products = []
+    this.productsCount = user.productsCount
+    for (i = 0; i < user.productsCount; i++) {
+      this.products.push(productsObject[i])
+    }
+    this.addressinfo = user.addressinfo
+    this.isPaid = user.isPaid
+    this.shippingPrice = user.shippingPrice
+    this.taxPrice = user.taxPrice
+    this.totalPrice = user.totalPrice
     this.orderId = user.orderId
   }
 
@@ -50,16 +50,12 @@ class Email {
         url: this.url,
         subject,
         // order
-        item: this.item,
-        street: this.street,
-        city: this.city,
-        zip: this.zip,
-        country: this.country,
-        price: this.price,
-        tax: this.tax,
-        total: this.total,
-        customerName: this.customerName,
-        email: this.email,
+        products: this.products,
+        address: this.addressinfo,
+        paid: this.isPaid,
+        shippingPrice: this.shippingPrice,
+        taxPrice: this.taxPrice,
+        totalPrice: this.totalPrice,
         orderId: this.orderId,
       }
     )
