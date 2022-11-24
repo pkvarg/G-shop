@@ -5,16 +5,16 @@ block content
   h3 Hi #{firstName},
   
   h1 Your order details 
-  p ...
-  h1 #{firstName}
+
   h2 #{products}
-  p ...
+  h2 #{firstName}
   h2 #{address}
-  h3 Order is paid? #{paid}
-  p Shipping #{shippingPrice}
-  p Tax #{taxPrice}
-  p Total #{totalPrice}
-  p #{orderId}
+  h2 Payment Method: #{paymentMethod}
+  h2 Order is paid? #{paid}
+  h2 Shipping: $#{shippingPrice}
+  h2 Tax: $#{taxPrice}
+  h2 Total: $#{totalPrice}
+  p Order number: #{orderId}
  
 
   h3 Thank you for shopping with us!

@@ -45,8 +45,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     let productsObject = {}
     loop.map((item, i) => {
-      console.log(item.qty + ' x ' + item.name + ' price $' + item.price)
-      productsObject[i] = item.qty + ' x ' + item.name + ' price $' + item.price
+      productsObject[i] =
+        ' ' + item.qty + ' x ' + item.name + ' $' + item.price + '  '
     })
 
     // object with address info
@@ -69,13 +69,14 @@ const addOrderItems = asyncHandler(async (req, res) => {
     productsObject.isPaid = additional.isPaid
     productsObject.productsCount = productsCount
     productsObject.orderId = createdOrder._id
+    productsObject.paymentMethod = additional.paymentMethod
     productsObject.addressinfo =
       addressInfo.address +
-      ' ,' +
+      ', ' +
       addressInfo.city +
-      ' ' +
+      ', ' +
       addressInfo.postalCode +
-      ' ' +
+      ', ' +
       addressInfo.country
     console.log(productsObject)
 

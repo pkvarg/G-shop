@@ -12,10 +12,11 @@ class Email {
     // order
     this.products = []
     this.productsCount = user.productsCount
-    for (i = 0; i < user.productsCount; i++) {
-      this.products.push(productsObject[i])
+    for (let i = 0; i < user.productsCount; i++) {
+      this.products.push(user[i])
     }
     this.addressinfo = user.addressinfo
+    this.paymentMethod = user.paymentMethod
     this.isPaid = user.isPaid
     this.shippingPrice = user.shippingPrice
     this.taxPrice = user.taxPrice
@@ -52,6 +53,7 @@ class Email {
         // order
         products: this.products,
         address: this.addressinfo,
+        paymentMethod: this.paymentMethod,
         paid: this.isPaid,
         shippingPrice: this.shippingPrice,
         taxPrice: this.taxPrice,
