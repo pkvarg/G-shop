@@ -16,8 +16,15 @@ class Email {
       this.products.push(user[i])
     }
     this.addressinfo = user.addressinfo
-    this.paymentMethod = user.paymentMethod
-    this.isPaid = user.isPaid
+    //this.paymentMethod = user.paymentMethod
+    let paymentMethod
+    if (user.paymentMethod === 'Cash') {
+      paymentMethod = 'You will pay upon delivery'
+    } else {
+      paymentMethod = 'You selected payment by card'
+    }
+    this.paymentMethod = paymentMethod
+    this.isPaid = user.isPaid ? 'Paid by card' : 'Not paid'
     this.shippingPrice = user.shippingPrice
     this.taxPrice = user.taxPrice
     this.totalPrice = user.totalPrice
