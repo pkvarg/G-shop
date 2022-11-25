@@ -1,4 +1,4 @@
-import niceInvoice from 'nice-invoice'
+//import niceInvoice from 'nice-invoice'
 
 // const invoiceDetails = {
 //   user: '637e14b1cd0e572dddbf53f0',
