@@ -38,7 +38,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
     })
     const createdOrder = await order.save()
 
-    //from Calculations
     // array of items
     const loop = createdOrder.orderItems
     const productsCount = loop.length
@@ -78,7 +77,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       addressInfo.postalCode +
       ', ' +
       addressInfo.country
-    console.log(productsObject)
+    console.log('PO:', productsObject)
 
     await new Email(productsObject).sendOrderToEmail()
 
@@ -124,6 +123,57 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     }
 
     const updatedOrder = await order.save()
+    // send PaymentSuccessfull Email
+    const updatedOrderLoop = updatedOrder.orderItems
+    const updatedOrderProductsCount = updatedOrderLoop.length
+
+    let updatedOrderProductsObject = {}
+    updatedOrderLoop.map((item, i) => {
+      updatedOrderProductsObject[i] =
+        item.qty + ' x ' + item.name + ' price $' + item.price
+    })
+    //console.log(updatedOrderProductsObject)
+
+    // object with address info
+    const updatedOrderAddressInfo = updatedOrder.shippingAddress
+    //console.log(updatedOrderAddressInfo)
+    const updatedOrderAdditional = {
+      paymentMethod: updatedOrder.paymentMethod,
+      taxPrice: updatedOrder.taxPrice,
+      shippingPrice: updatedOrder.shippingPrice,
+      totalPrice: updatedOrder.totalPrice,
+      isPaid: updatedOrder.isPaid,
+      createdAt: updatedOrder.createdAt,
+    }
+    //console.log(updatedOrderAdditional)
+
+    // ADD THESE LATER
+    updatedOrderProductsObject.email = updatedOrder.paymentResult.email_address
+    updatedOrderProductsObject.name =
+      updatedOrder.paymentResult.name.given_name +
+      ' ' +
+      updatedOrder.paymentResult.name.surname
+    updatedOrderProductsObject.taxPrice = updatedOrderAdditional.taxPrice
+    updatedOrderProductsObject.totalPrice = updatedOrderAdditional.totalPrice
+    updatedOrderProductsObject.shippingPrice =
+      updatedOrderAdditional.shippingPrice
+    updatedOrderProductsObject.isPaid = updatedOrderAdditional.isPaid
+    updatedOrderProductsObject.productsCount = updatedOrderProductsCount
+    updatedOrderProductsObject.orderId = updatedOrder._id
+    updatedOrderProductsObject.paymentMethod =
+      updatedOrderAdditional.paymentMethod
+    updatedOrderProductsObject.addressinfo =
+      updatedOrderAddressInfo.address +
+      ' ,' +
+      updatedOrderAddressInfo.city +
+      ' ' +
+      updatedOrderAddressInfo.postalCode +
+      ' ' +
+      updatedOrderAddressInfo.country
+
+    console.log('UOPO:', updatedOrderProductsObject)
+    await new Email(updatedOrderProductsObject).sendPaymentSuccessfullToEmail()
+
     res.json(updatedOrder)
   } else {
     res.status(404)

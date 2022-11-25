@@ -99,6 +99,10 @@ class Email {
     await this.send('orderToEmail', `Your order ${this.orderId}`)
   }
 
+  async sendPaymentSuccessfullToEmail() {
+    await this.send('paymentSuccessfull', `Your order is now paid`)
+  }
+
   // contact Form
   async sendContactForm() {
     await this.send('Contact')

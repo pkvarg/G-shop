@@ -1,0 +1,32 @@
+extends baseEmail 
+
+block content 
+                            
+  h3 Hi #{firstName},
+  
+  h1 Your order is now paid. 
+
+  h2 #{products}
+  h2 #{firstName}
+  h2 #{address}
+  h2 Payment Method: #{paymentMethod}
+  h2 Payment status: Successfully Paid
+  h2 Shipping: $#{shippingPrice}
+  h2 Tax: $#{taxPrice}
+  h2 Total: $#{totalPrice}
+  p Order number: #{orderId}
+ 
+
+  h3 Thank you for shopping with us!
+
+  //- table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  //-   tbody
+  //-     tr
+  //-       td(align='left')
+  //-         table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  //-           tbody
+  //-             tr
+  //-               td
+  //-                 a(href=`${url}`, target='_blank') Reset your password
+  //- p If you didn't forget your password, please ignore this email!
+  
