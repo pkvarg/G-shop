@@ -41,8 +41,8 @@ const PlaceOrderScreen = () => {
   // send by email
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  const orderToEmailName = userInfo.name
-  const orderToEmailEmail = userInfo.email
+  //const orderToEmailName = userInfo.name
+  const orderEmailToEmail = userInfo.email
 
   const placeOrderhandler = () => {
     dispatch(
@@ -54,8 +54,8 @@ const PlaceOrderScreen = () => {
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
-        name: orderToEmailName,
-        email: orderToEmailEmail,
+        name: cart.shippingAddress.name,
+        email: orderEmailToEmail,
       })
     )
   }
@@ -70,8 +70,8 @@ const PlaceOrderScreen = () => {
               <h2>Shipping</h2>
               <p>
                 <strong>Address: </strong>
-                {cart.shippingAddress.address}, {cart.shippingAddress.city},{' '}
-                {cart.shippingAddress.postalCode},{' '}
+                {cart.shippingAddress.name}, {cart.shippingAddress.address},{' '}
+                {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},{' '}
                 {cart.shippingAddress.country}
               </p>
             </ListGroup.Item>

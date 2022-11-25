@@ -143,7 +143,7 @@ const OrderScreen = () => {
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
-                <strong>Name: </strong> {order.user.name}
+                <strong>Name: </strong> {order.name}
               </p>
               <p>
                 <strong>Email: </strong>

@@ -16,8 +16,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body
-
-  const customerName = req.body.name
+  const name = req.body.name
   const email = req.body.email
   if (orderItems && orderItems.length === 0) {
     res.status(400)
@@ -33,7 +32,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-      customerName,
+      name,
       email,
     })
     const createdOrder = await order.save()
@@ -61,7 +60,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     }
     // ADD THESE LATER
     productsObject.email = email
-    productsObject.name = customerName
+    productsObject.name = name
     productsObject.taxPrice = additional.taxPrice
     productsObject.totalPrice = additional.totalPrice
     productsObject.shippingPrice = additional.shippingPrice
@@ -148,8 +147,9 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     //console.log(updatedOrderAdditional)
 
     // ADD THESE LATER
-    updatedOrderProductsObject.email = updatedOrder.paymentResult.email_address
-    updatedOrderProductsObject.name =
+    updatedOrderProductsObject.email = updatedOrder.email
+    updatedOrderProductsObject.name = updatedOrder.name
+    updatedOrderProductsObject.paidByWhom =
       updatedOrder.paymentResult.name.given_name +
       ' ' +
       updatedOrder.paymentResult.name.surname

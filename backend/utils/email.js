@@ -16,6 +16,7 @@ class Email {
       this.products.push(user[i])
     }
     this.addressinfo = user.addressinfo
+    this.paidByWhom = user.paidByWhom
     //this.paymentMethod = user.paymentMethod
     let paymentMethod
     if (user.paymentMethod === 'Cash') {
@@ -60,6 +61,7 @@ class Email {
         // order
         products: this.products,
         address: this.addressinfo,
+        paidByWhom: this.paidByWhom,
         paymentMethod: this.paymentMethod,
         paid: this.isPaid,
         shippingPrice: this.shippingPrice,
