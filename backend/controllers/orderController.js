@@ -1,7 +1,10 @@
 import asyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
 import Email from '../utils/email.js'
-import niceInvoice from 'nice-invoice'
+import niceInvoice from '../utils/niceInvoice.js'
+import path from 'path'
+
+const __dirname = path.resolve()
 
 // @desc Create new Order
 // @desc POST /api/orders
@@ -100,61 +103,40 @@ const addOrderItems = asyncHandler(async (req, res) => {
     }
 
     // 👇️ Add months to current Date
-    const result = addMonths(1, dateFromJson)
-    console.log(result)
+    const dueDate = addMonths(1, dateFromJson)
+    console.log(dueDate)
 
     const invoiceDetails = {
       shipping: {
-        name: 'Micheal',
-        address: '1234 Main Street',
-        city: 'Dubai',
-        state: 'Dubai',
-        country: 'UAE',
+        name: name,
+        address: createdOrder.shippingAddress.address,
+        city: createdOrder.shippingAddress.city,
+        country: createdOrder.shippingAddress.country,
         postal_code: 94111,
       },
-      items: [
-        {
-          item: 'Chair',
-          description: 'Wooden chair',
-          quantity: 1,
-          price: 50.0,
-          tax: '10%',
-        },
-        {
-          item: 'Watch',
-          description: 'Wall watch for office',
-          quantity: 2,
-          price: 30.0,
-          tax: '10%',
-        },
-        {
-          item: 'Water Glass Set',
-          description: 'Water glass set for office',
-          quantity: 1,
-          price: 35.0,
-          tax: '',
-        },
-      ],
-      subtotal: 156,
-      total: 156,
+      items: createdOrder.orderItems,
+
+      total: createdOrder.totalPrice,
+      taxPrice: createdOrder.taxPrice,
       order_number: 1234222,
       header: {
-        company_name: 'Nice Invoice',
-        company_logo: 'logo.png',
-        company_address:
-          'Nice Invoice. 123 William Street 1th Floor New York, NY 123456',
+        company_name: 'Prúd',
+        company_logo: __dirname + '/backend/utils/prud-prud-logo.png',
+        company_address: 'Špieszova 5, 84104, Bratislava, Slovensko',
       },
+      ico: 'IČO: 36076589',
+      dic: 'DIČ: 2022028173',
       footer: {
-        text: 'This is footer - you can add any text here',
+        text: 'Copyright',
       },
       currency_symbol: '$',
       date: {
-        billing_date: '08 August 2020',
-        due_date: '10 September 2020',
+        billing_date: billingDate,
+        due_date: dueDate,
       },
     }
 
-    niceInvoice(invoiceDetails, 'myInvoice.pdf')
+    niceInvoice(invoiceDetails, 'mySVKinvoice.pdf')
 
     res.status(201).json(createdOrder)
   }

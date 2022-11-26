@@ -1,117 +1,19 @@
-// Required packages
+import fs from 'fs'
+import PDFDocument from 'pdfkit'
+import path from 'path'
+const __dirname = path.resolve()
 
-let name = 'Peter Varga'
-const createdOrder = {
-  user: '637e14b1cd0e572dddbf53f0',
-  orderItems: [
-    {
-      name: 'Logitech G-Series ľščťžýáíéäň Šú Gaming Mouse',
-      qty: 1,
-      image: '/images/mouse.jpg',
-      price: 49.99,
-      product: '635bf1b455f0356a39f0f5bc',
-      _id: '637f1d7fdb4eb1211f4277f8',
-    },
-    {
-      name: 'XXXtech G-Series Gaming Mouse',
-      qty: 1,
-      image: '/images/mouse.jpg',
-      price: 49.99,
-      product: '635bf1b455f0356a39f0f5bc',
-      _id: '637f1d7fdb4eb1211f4277f8',
-    },
-    {
-      name: 'Airpods Wireless Bluetooth Headphones',
-      qty: 2,
-      image: '/images/airpods.jpg',
-      price: 89.99,
-      product: '635bf1b455f0356a39f0f5b8',
-      _id: '637f1d7fdb4eb1211f4277f9',
-    },
-  ],
-  shippingAddress: {
-    address: 'Nábrežná, 42',
-    city: 'Nové Zámky',
-    postalCode: '94002',
-    country: 'Slovakia',
-  },
-  paymentMethod: 'Card',
-  taxPrice: 34.5,
-  shippingPrice: 0,
-  totalPrice: 264.47,
-  isPaid: false,
-  isDelivered: false,
-  _id: '637f1d7fdb4eb1211f4277f7',
-  createdAt: '2022-11-24T07:30:07.856Z',
-  //updatedAt: 2022-11-24T07:30:07.856Z,
-  __v: 0,
-}
-
-//invoice
-// HandleDate
-const date = createdOrder.createdAt
-let dateFromJson = new Date(date)
-let day = dateFromJson.getDate()
-let month = dateFromJson.getMonth() + 1
-let year = dateFromJson.getFullYear()
-let billingDate = `${day}/${month}/${year}`
-// function to create Billing due date
-function addMonths(numOfMonths, date) {
-  date.setMonth(date.getMonth() + numOfMonths)
-  // return Real DMY
-  let increasedDay = date.getDate()
-  let increasedMonth = date.getMonth() + 1
-  let increasedYear = date.getFullYear()
-  let increasedDMY = `${increasedDay}/${increasedMonth}/${increasedYear}`
-  return increasedDMY
-}
-
-// 👇️ Add months to current Date
-let dueDate = addMonths(1, dateFromJson)
-console.log('dueDate:', dueDate)
-
-const invoiceDetails = {
-  shipping: {
-    name: name,
-    address: createdOrder.shippingAddress.address,
-    city: createdOrder.shippingAddress.city,
-    //state: 'Dubai',
-    country: createdOrder.shippingAddress.country,
-    postal_code: 94111,
-  },
-  items: createdOrder.orderItems,
-
-  subtotal: 156,
-  total: createdOrder.totalPrice,
-  taxPrice: createdOrder.taxPrice,
-  order_number: 1234222,
-  header: {
-    company_name: 'Prúd',
-    company_logo: './prud-prud-logo.png',
-    company_address: 'Špieszova 5, 84104, Bratislava, Slovensko',
-  },
-  ico: 'IČO: 36076589',
-  dic: 'DIČ: 2022028173',
-  footer: {
-    text: 'Copyright',
-  },
-  currency_symbol: '$',
-  date: {
-    billing_date: billingDate,
-    due_date: dueDate,
-  },
-}
-
-// console.log(invoiceDetails.items)
-// console.log(invoiceDetails.items.length)
-
-const fs = require('fs')
-const PDFDocument = require('pdfkit')
-
-let niceInvoice = (invoice, path) => {
+const niceInvoice = (invoice, path) => {
   let doc = new PDFDocument({ size: 'A4', margin: 40 })
-  doc.registerFont('Cardo', './fonts/Cardo-Regular.ttf')
-  doc.registerFont('Cardo-Bold', './fonts/Cardo-Bold.ttf')
+
+  doc.registerFont(
+    'Cardo',
+    __dirname + '/backend/utils/fonts/Cardo-Regular.ttf'
+  )
+  doc.registerFont(
+    'Cardo-Bold',
+    __dirname + '/backend/utils/fonts/Cardo-Bold.ttf'
+  )
 
   header(doc, invoice)
   customerInformation(doc, invoice)
@@ -280,5 +182,4 @@ let companyAddress = (doc, address) => {
   })
 }
 
-//module.exports = niceInvoice;
-niceInvoice(invoiceDetails, 'myInvoice.pdf')
+export default niceInvoice
