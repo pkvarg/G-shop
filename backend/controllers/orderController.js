@@ -45,7 +45,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     let currentYear = today.getFullYear()
     let currentMonth = today.getMonth() + 1
     let currentDay = today.getDate()
-    let invoiceNo = `${currentYear}/${createdOrderId}`
+    let invoiceNo = `${currentYear}-${createdOrderId}`
 
     // array of items
     const loop = createdOrder.orderItems
@@ -87,7 +87,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       ', ' +
       addressInfo.country
 
-    await new Email(productsObject).sendOrderToEmail()
+    //await new Email(productsObject).sendOrderToEmail()
 
     //invoice
     // HandleDate
@@ -143,8 +143,12 @@ const addOrderItems = asyncHandler(async (req, res) => {
         due_date: dueDate,
       },
     }
+    console.log(invoiceNo)
 
-    niceInvoice(invoiceDetails, 'mySVKinvoice.pdf')
+    niceInvoice(invoiceDetails, `${invoiceNo}.pdf`)
+    const fileTosend = `${invoiceNo}.pdf`
+
+    await new Email(productsObject, '', fileTosend).sendOrderToEmail()
 
     res.status(201).json(createdOrder)
   }

@@ -4,7 +4,7 @@ import pug from 'pug'
 import path from 'path'
 
 class Email {
-  constructor(user, url) {
+  constructor(user, url, file) {
     this.to = user.email
     this.firstName = user.name
     this.url = url
@@ -30,6 +30,7 @@ class Email {
     this.taxPrice = user.taxPrice
     this.totalPrice = user.totalPrice
     this.orderId = user.orderId
+    this.file = file
   }
 
   newTransport() {
@@ -68,6 +69,7 @@ class Email {
         taxPrice: this.taxPrice,
         totalPrice: this.totalPrice,
         orderId: this.orderId,
+        file: this.file,
       }
     )
 
@@ -79,6 +81,13 @@ class Email {
       subject,
       html,
       text: htmlToText(html),
+      attachments: [
+        {
+          filename: this.file,
+          path: __dirname + `/${this.file}`,
+          cid: `uniq-${this.file}`,
+        },
+      ],
     }
 
     // 3) Create a transport and send email
