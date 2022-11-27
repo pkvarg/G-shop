@@ -69,7 +69,7 @@ let customerInformation = (doc, invoice) => {
     .text(invoice.date.due_date, 276, customerInformationTop + 30)
     //
     .text('Payment Method:', 50, customerInformationTop + 45)
-    .text(invoice.paymentMethod, 313, customerInformationTop + 45)
+    .text(invoice.paymentMethod, 160, customerInformationTop + 45)
 
     .font('Cardo-Bold')
     .text(invoice.shipping.name, 360, customerInformationTop)
