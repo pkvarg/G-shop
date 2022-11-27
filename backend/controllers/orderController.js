@@ -40,6 +40,12 @@ const addOrderItems = asyncHandler(async (req, res) => {
       email,
     })
     const createdOrder = await order.save()
+    const createdOrderId = createdOrder._id
+    let today = new Date()
+    let currentYear = today.getFullYear()
+    let currentMonth = today.getMonth() + 1
+    let currentDay = today.getDate()
+    let invoiceNo = `${currentYear}/${createdOrderId}`
 
     // array of items
     const loop = createdOrder.orderItems
@@ -115,6 +121,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
         postal_code: 94111,
       },
       items: createdOrder.orderItems,
+      invoiceNo: invoiceNo,
+      paymentMethod: createdOrder.paymentMethod,
 
       total: createdOrder.totalPrice,
       taxPrice: createdOrder.taxPrice,

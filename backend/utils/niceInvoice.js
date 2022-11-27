@@ -60,26 +60,29 @@ let customerInformation = (doc, invoice) => {
     .fontSize(12.5)
     .text('Invoice Number:', 50, customerInformationTop)
     .font('Cardo-Bold')
-    .text(invoice.order_number, 150, customerInformationTop)
+    .text(invoice.invoiceNo, 160, customerInformationTop)
     .fontSize(14)
     .font('Cardo')
     .text('Billing Date:', 50, customerInformationTop + 15)
-    .text(invoice.date.billing_date, 150, customerInformationTop + 15)
+    .text(invoice.date.billing_date, 276, customerInformationTop + 15)
     .text('Due Date:', 50, customerInformationTop + 30)
-    .text(invoice.date.due_date, 150, customerInformationTop + 30)
+    .text(invoice.date.due_date, 276, customerInformationTop + 30)
+    //
+    .text('Payment Method:', 50, customerInformationTop + 45)
+    .text(invoice.paymentMethod, 313, customerInformationTop + 45)
 
     .font('Cardo-Bold')
-    .text(invoice.shipping.name, 300, customerInformationTop)
+    .text(invoice.shipping.name, 360, customerInformationTop)
     .font('Cardo')
-    .text(invoice.shipping.address, 300, customerInformationTop + 15)
+    .text(invoice.shipping.address, 360, customerInformationTop + 15)
     .text(
       invoice.shipping.city + ', ' + invoice.shipping.country,
-      300,
+      360,
       customerInformationTop + 30
     )
     .moveDown()
 
-  generateHr(doc, 252)
+  generateHr(doc, 272)
 }
 
 let invoiceTable = (doc, invoice) => {
