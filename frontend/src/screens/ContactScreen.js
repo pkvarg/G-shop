@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import React, { useRef, useEffect, useState } from 'react'
+import { Form, Button, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -20,6 +20,15 @@ const ContactScreen = () => {
   const [message, setMessage] = useState(null)
   const [messageSuccess, setMessageSuccess] = useState(null)
 
+  let ref = useRef()
+
+  // useEffect(() => {
+  //   if ((email, name, subject, emailMessage)) {
+  //     setPasswordGroupOne(x)
+  //     setPasswordGroupTwo(y)
+  //   }
+  // })
+
   const origURL = window.location.host
 
   const dispatch = useDispatch()
@@ -27,7 +36,7 @@ const ContactScreen = () => {
   const forgotPassword = useSelector((state) => state.forgotPassword)
   const { loading, error } = forgotPassword
 
-  console.log(passwordGroupOne, passwordGroupTwo)
+  //console.log(passwordGroupOne, passwordGroupTwo)
 
   const contactForm = {
     name,
@@ -35,22 +44,18 @@ const ContactScreen = () => {
     subject,
     emailMessage,
   }
-
   const submitHandler = (e) => {
     e.preventDefault()
     if (passwordGroupOne !== x || passwordGroupTwo !== y) {
       setMessage('You are a robot!')
     } else {
       dispatch(sendContactFormAction(contactForm))
-      setMessage('ok')
+      setMessageSuccess('Your message was successfully sent')
+      setName('')
+      setEmail('')
+      setSubject('')
+      setEmailMessage('')
     }
-
-    // if (!email) {
-    //   setMessage('You must enter an email address')
-    // } else {
-    //   dispatch(forgotPasswordAction(email, origURL))
-    //   setMessageSuccess('Reset link sent to your email')
-    // }
   }
 
   return (
@@ -82,7 +87,6 @@ const ContactScreen = () => {
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
-
         <Form.Group controlId='subject'>
           <Form.Label>Subject</Form.Label>
           <Form.Control
@@ -96,8 +100,8 @@ const ContactScreen = () => {
         <Form.Group controlId='message'>
           <Form.Label>Message</Form.Label>
           <Form.Control
-            as='textarea'
             required
+            as='textarea'
             rows={10}
             type='textarea'
             placeholder='Enter message'
@@ -108,18 +112,19 @@ const ContactScreen = () => {
         {/* passwords  */}
         <Form.Group controlId='password-one'>
           <Form.Control
-            className='my-1'
+            className='password-group'
             placeholder=''
             type='text'
-            value={passwordGroupOne}
+            defaultValue={passwordGroupOne}
             onChange={(e) => setPasswordGroupOne(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='password-two'>
           <Form.Control
+            className='password-group'
             placeholder=''
             type='text'
-            value={passwordGroupTwo}
+            defaultValue={passwordGroupTwo}
             onChange={(e) => setPasswordGroupTwo(e.target.value)}
           ></Form.Control>
         </Form.Group>
