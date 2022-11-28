@@ -23,6 +23,7 @@ import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import ResetPasswordScreen from './screens/ResetPasswordScreen'
+import ContactScreen from './screens/ContactScreen'
 
 const App = () => {
   const [clientID, setClientID] = useState('')
@@ -66,6 +67,7 @@ const App = () => {
                     <Route path=':id' element={<CartScreen />} />
                     <Route path='' element={<CartScreen />} />
                   </Route>
+                  <Route path='/contact' element={<ContactScreen />} />
                   <Route path='/admin/userlist' element={<UserListScreen />} />
                   <Route
                     path='/admin/user/:id/edit'

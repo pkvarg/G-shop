@@ -59,6 +59,12 @@ const Header = () => {
                   </LinkContainer>
                 </NavDropdown>
               )}
+              <LinkContainer to='/contact'>
+                <Nav.Link>
+                  {/* <i className='fas fa-shopping-cart'></i> Contact */}
+                  Contact
+                </Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>
