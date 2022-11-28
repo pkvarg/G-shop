@@ -78,37 +78,52 @@ class Email {
       }
     )
 
-    // 2) Define email options
-    const mailOptions = {
-      from: this.from,
-      to: this.to,
-      bcc: 'info@pictusweb.sk',
-      subject,
-      html,
-      text: htmlToText(html),
-      // attachments: [
-      //   {
-      //     filename: this.file,
-      //     path: __dirname + `/${this.file}`,
-      //     cid: `uniq-${this.file}`,
-      //   },
-      // ],
+    if (!this.file) {
+      console.log('no file')
+      let mailOptions = {
+        from: this.from,
+        to: this.to,
+        bcc: 'info@pictusweb.sk',
+        subject,
+        html,
+        text: htmlToText(html),
+        // file attachment
+        // attachments: [
+        //   {
+        //     filename: this.file,
+        //     path: __dirname + `/${this.file}`,
+        //     cid: `uniq-${this.file}`,
+        //   },
+        // ],
+      }
+
+      // 3) Create a transport and send email
+
+      await this.newTransport().sendMail(mailOptions)
     }
+    if (this.file) {
+      console.log('is file')
+      // 2) Define email options
+      let mailOptions = {
+        from: this.from,
+        to: this.to,
+        bcc: 'info@pictusweb.sk',
+        subject,
+        html,
+        text: htmlToText(html),
+        // file attachment
+        attachments: [
+          {
+            filename: this.file,
+            path: __dirname + `/${this.file}`,
+            cid: `uniq-${this.file}`,
+          },
+        ],
+      }
+      // 3) Create a transport and send email
 
-    // 3) Create a transport and send email
-
-    await this.newTransport().sendMail(mailOptions)
-  }
-
-  async sendWelcome() {
-    await this.send('welcome', 'Greetings from G-shop')
-  }
-
-  async sendPasswordReset() {
-    await this.send(
-      'passwordReset',
-      'Your password reset token (valid for only 10 minutes)'
-    )
+      await this.newTransport().sendMail(mailOptions)
+    }
   }
 
   async sendOrderToEmail() {
