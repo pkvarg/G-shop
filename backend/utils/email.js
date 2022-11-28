@@ -31,6 +31,8 @@ class Email {
     this.totalPrice = user.totalPrice
     this.orderId = user.orderId
     this.file = file
+    //this.subject = user.subject
+    this.message = user.message
   }
 
   newTransport() {
@@ -70,6 +72,9 @@ class Email {
         totalPrice: this.totalPrice,
         orderId: this.orderId,
         file: this.file,
+        // contactForm
+        emailSubject: this.subject,
+        message: this.message,
       }
     )
 
@@ -81,13 +86,13 @@ class Email {
       subject,
       html,
       text: htmlToText(html),
-      attachments: [
-        {
-          filename: this.file,
-          path: __dirname + `/${this.file}`,
-          cid: `uniq-${this.file}`,
-        },
-      ],
+      // attachments: [
+      //   {
+      //     filename: this.file,
+      //     path: __dirname + `/${this.file}`,
+      //     cid: `uniq-${this.file}`,
+      //   },
+      // ],
     }
 
     // 3) Create a transport and send email
@@ -116,7 +121,7 @@ class Email {
 
   // contact Form
   async sendContactForm() {
-    await this.send('Contact')
+    await this.send('emailForm', 'Contact from Eshop')
   }
 }
 
