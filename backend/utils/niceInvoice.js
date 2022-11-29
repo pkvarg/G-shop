@@ -95,11 +95,8 @@ let invoiceTable = (doc, invoice) => {
   generateHr(doc, invoiceTableTop + 20)
   doc.font('Cardo')
 
-  //console.log('InvoiceItems: ', invoice.items.length)
-
   for (i = 0; i < invoice.items.length; i++) {
     let item = invoice.items[i]
-    //console.log(item.price)
     let total = invoice.items[i].qty * invoice.items[i].price
     const position = invoiceTableTop + (i + 1) * 30
     tableRow(
@@ -117,9 +114,6 @@ let invoiceTable = (doc, invoice) => {
   let tax = invoice.taxPrice
   let totalPrice = invoice.total
   let sumTotal = tax + totalPrice
-  //console.log('tax: ', tax)
-  //console.log('totalPrice:', totalPrice)
-  //console.log('sumTotal:', sumTotal)
 
   const subtotalPosition = invoiceTableTop + (i + 1) * 30
   doc.font('Cardo-Bold')

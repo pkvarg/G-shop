@@ -20,6 +20,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body
+  const user = req.body.user
+
   const name = req.body.name
   const email = req.body.email
   if (orderItems && orderItems.length === 0) {
@@ -69,6 +71,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       createdAt: createdOrder.createdAt,
     }
     // ADD THESE LATER
+    productsObject.user = user
     productsObject.email = email
     productsObject.name = name
     productsObject.taxPrice = additional.taxPrice
@@ -110,7 +113,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     // 👇️ Add months to current Date
     const dueDate = addMonths(1, dateFromJson)
-    console.log(dueDate)
 
     const invoiceDetails = {
       shipping: {
@@ -143,7 +145,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
         due_date: dueDate,
       },
     }
-    console.log(invoiceNo)
 
     niceInvoice(invoiceDetails, `${invoiceNo}.pdf`)
     const fileTosend = `${invoiceNo}.pdf`
@@ -195,18 +196,15 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     // send PaymentSuccessfull Email
     const updatedOrderLoop = updatedOrder.orderItems
     const updatedOrderProductsCount = updatedOrderLoop.length
-    console.log('UOPCclg: ', updatedOrderProductsCount)
 
     let updatedOrderProductsObject = {}
     updatedOrderLoop.map((item, i) => {
       updatedOrderProductsObject[i] =
         item.qty + ' x ' + item.name + ' price $' + item.price
     })
-    //console.log(updatedOrderProductsObject)
 
     // object with address info
     const updatedOrderAddressInfo = updatedOrder.shippingAddress
-    //console.log(updatedOrderAddressInfo)
     const updatedOrderAdditional = {
       paymentMethod: updatedOrder.paymentMethod,
       taxPrice: updatedOrder.taxPrice,
@@ -215,7 +213,6 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       isPaid: updatedOrder.isPaid,
       createdAt: updatedOrder.createdAt,
     }
-    //console.log(updatedOrderAdditional)
 
     // ADD THESE LATER
     updatedOrderProductsObject.email = updatedOrder.email
@@ -242,7 +239,6 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       ' ' +
       updatedOrderAddressInfo.country
 
-    console.log('UOPO:', updatedOrderProductsObject)
     await new Email(updatedOrderProductsObject).sendPaymentSuccessfullToEmail()
 
     res.json(updatedOrder)

@@ -36,7 +36,6 @@ router.post('/currentUser', async (req, res) => {
 
     await new Email(createdUser, url).sendWelcome()
 
-    console.log(createdUser)
     res.json({
       _id: createdUser._id,
       name: createdUser.name,

@@ -5,6 +5,7 @@ import path from 'path'
 
 class Email {
   constructor(user, url, file) {
+    this.user = user.user
     this.to = user.email
     this.firstName = user.name
     this.url = url
@@ -57,6 +58,7 @@ class Email {
     const html = pug.renderFile(
       `${__dirname}/backend/utils/mailTemplates/${template}.pug`,
       {
+        user: this.user,
         firstName: this.firstName,
         email: this.to,
         url: this.url,

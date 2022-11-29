@@ -36,8 +36,6 @@ const ContactScreen = () => {
   const forgotPassword = useSelector((state) => state.forgotPassword)
   const { loading, error } = forgotPassword
 
-  //console.log(passwordGroupOne, passwordGroupTwo)
-
   const contactForm = {
     name,
     email,

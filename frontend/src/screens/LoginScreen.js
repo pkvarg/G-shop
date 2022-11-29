@@ -41,9 +41,10 @@ const LoginScreen = () => {
       name: userObject.name,
       email: userObject.email,
       googleId: userObject.sub,
-      token: response.credential,
+      //token: response.credential,
       isAdmin: false,
     }
+    //console.log(data)
     dispatch(getGoogleUserInfo(data))
   }
 

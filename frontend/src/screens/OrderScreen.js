@@ -126,9 +126,8 @@ const OrderScreen = () => {
     localStorage.removeItem('cartItems')
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
-    //dispatch({ type: ORDER_LIST_MY_RESET })
-    //document.location.href = '/'
-    navigate('/')
+    dispatch({ type: ORDER_LIST_MY_RESET })
+    document.location.href = '/'
   }
 
   return loading ? (

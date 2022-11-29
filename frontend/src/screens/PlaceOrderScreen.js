@@ -54,6 +54,7 @@ const PlaceOrderScreen = () => {
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
+        user: userInfo.name,
         name: cart.shippingAddress.name,
         email: orderEmailToEmail,
       })
