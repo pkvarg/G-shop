@@ -136,6 +136,14 @@ class Email {
     await this.send('paymentSuccessfull', `Your order is now paid`)
   }
 
+  async sendPasswordReset() {
+    await this.send('passwordReset', 'Reset Your Password')
+  }
+
+  async sendWelcome() {
+    await this.send('welcome', 'Successfull Registration')
+  }
+
   // contact Form
   async sendContactForm() {
     await this.send('emailForm', 'Contact from Eshop')
